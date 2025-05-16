@@ -1,0 +1,297 @@
+
+library(kableExtra)
+library(tidyverse)
+
+summary_rules <- read_csv2("/Users/mdam21/Desktop/thesis/summary_condition_rules.csv")
+source("/Users/mdam21/Desktop/thesis/sample/sample_scripts/00F_MEDIAN_PERCENTILE.R")
+
+conditions_table <- c("condition_p210", "condition_p215", "condition_p1515", "condition_p2175")
+
+
+# Modified table_function that saves only HTML files
+table_function <- function(format_rules, output_dir = ".") {
+  n_tables <- nrow(format_rules)
+  saved_tables <- list() # To keep track of created tables
+  
+  # Ensure output directory exists
+  if (!dir.exists(output_dir)) {
+    dir.create(output_dir, recursive = TRUE)
+  }
+  
+  for (i in 1:n_tables) {
+    df <- format_rules 
+    table_id <- df$table_id[i]
+    
+    # Get the source data frame
+    data_name <- get(table_id)
+    table <- data_name %>% 
+      mutate(
+        # Store the original support value for conditional logic
+        support_value = .data[[df$support[i]]],
+        # Create the support label
+        supp = case_when(
+          .data[[df$support[i]]] == 0 ~ "no",
+          .data[[df$support[i]]] == 1 ~ "yes",
+          TRUE ~ "unknown"
+        ),
+        b_y12 = format_mean(.data[[df$b_y12_m[i]]], .data[[df$b_y12_sd[i]]]),
+        b_y12_p = format_minmax(.data[[df$b_y12_p5[i]]], .data[[df$b_y12_p95[i]]]),
+        b_y21 = format_mean(.data[[df$b_y21_m[i]]], .data[[df$b_y21_sd[i]]]),
+        b_y21_p = format_minmax(.data[[df$b_y21_p5[i]]], .data[[df$b_y21_p95[i]]]),
+        gor_wgt1 = format_median(.data[[df$gor_wgt1_m[i]]]),
+        gor_wgt1_p = format_minmax(.data[[df$gor_wgt1_p5[i]]], .data[[df$gor_wgt1_p95[i]]]),
+        gor_wgt2 = format_median(.data[[df$gor_wgt2_m[i]]]),
+        gor_wgt2_p = format_minmax(.data[[df$gor_wgt2_p5[i]]], .data[[df$gor_wgt2_p95[i]]]),
+        # Calculate different gor_ratio based on support value
+        gor_ratio = case_when(
+          support_value == 0 ~ format_median(.data[[df$gor_ratio2_m[i]]]),
+          support_value == 1 ~ format_median(.data[[df$gor_ratio_m[i]]]),
+          TRUE ~ format_median(.data[[df$gor_ratio_m[i]]])
+        ),
+        # Calculate different gor_ratio minmax based on support value
+        gor_ratio_p = case_when(
+          support_value == 0 ~ format_minmax(.data[[df$gor_ratio2_p5[i]]], .data[[df$gor_ratio2_p95[i]]]),
+          support_value == 1 ~ format_minmax(.data[[df$gor_ratio_p5[i]]], .data[[df$gor_ratio_p95[i]]]),
+          TRUE ~ format_minmax(.data[[df$gor_ratio_p5[i]]], .data[[df$gor_ratio_p95[i]]])
+        )
+      ) %>% 
+      dplyr::select(condition_ind, supp, n_size, b_y12, b_y12_p, b_y21, b_y21_p, gor_wgt1, gor_wgt1_p, gor_wgt2, gor_wgt2_p, gor_ratio, gor_ratio_p)
+    
+    n_rows <- nrow(table)
+    
+    # Check if header columns exist and provide defaults if missing
+    header_supp_n <- if("header_supp" %in% names(df)) df$header_supp[i] else "Support"
+    header_wgt1 <- if("header_wgt1" %in% names(df)) df$header_wgt1[i] else "GORICA W1"
+    header_wgt2 <- if("header_wgt2" %in% names(df)) df$header_wgt2[i] else "GORICA W2"
+    
+    # Create the header vector correctly
+    headers <- c(" " = 3,
+                 "$\\phi_{12}$" = 2, 
+                 "$\\phi_{21}$" = 2)
+    N_header <- "$N_{datasets}$"
+    
+    # Dynamically add the wgt headers
+    wgt1_header <- setNames(2, header_wgt1)
+    wgt2_header <- setNames(2, header_wgt2)
+    
+    # Combine all headers
+    headers <- c(headers, wgt1_header, wgt2_header, "ratio GORICA$_{w}$" = 2)
+    
+    kbl_table <- table %>% 
+      arrange(as.numeric(str_extract(condition_ind, "\\d+"))) %>%
+      kbl(col.names = c("Condition", paste(header_supp_n), N_header,
+                        "Mean (SD)", "(min, max)",  # For theta_12
+                        "Mean (SD)", "(min, max)",  # For theta_21
+                        "Median", "(min, max)",  # For GORICA W1
+                        "Median", "(min, max)",  # For GORICA W2
+                        "Median", "(min, max)"), # For GORICA ratio
+          escape = FALSE) %>% 
+      kable_styling(full_width = TRUE) %>% 
+      add_header_above(headers) %>% 
+      row_spec(0:n_rows, extra_css = "border-top: none !important; border-bottom: none !important;")
+    
+    kbl_table <- kbl_table %>%
+      row_spec(0, extra_css = "border-bottom: 1px solid #ddd !important;")
+    
+    output_name <- paste0("table_", table_id, "_model")
+    
+    # Save the table as HTML
+    output_path <- file.path(output_dir, paste0(output_name, ".html"))
+    
+    # Save as HTML using save_kable
+    kbl_table %>%
+      save_kable(file = output_path)
+    
+    message(paste0("Saved table as HTML: ", output_path))
+    
+    # Also store in global environment
+    assign(output_name, kbl_table, envir = .GlobalEnv)
+    saved_tables <- c(saved_tables, output_name)
+  }
+  
+  message(paste0("Total tables created and saved: ", length(saved_tables)))
+  return(saved_tables)
+}
+
+# Example usage:
+# Create a directory for saved tables
+output_directory <- "/Users/mdam21/Desktop/thesis/sample/tables/sample"
+
+# Save tables as HTML
+table_function(summary_rules, output_dir = output_directory)
+
+# If you want to save specific tables individually:
+# For existing tables in your environment:
+save_specific_table <- function(table_object, filename, output_dir = ".") {
+  if (!dir.exists(output_dir)) {
+    dir.create(output_dir, recursive = TRUE)
+  }
+  
+  output_path <- file.path(output_dir, paste0(filename, ".html"))
+  
+  # Save as HTML
+  table_object %>% save_kable(file = output_path)
+  
+  message(paste0("Saved table as HTML: ", output_path))
+}
+
+# Example to save specific tables:
+# save_specific_table(table_set1h1_true_model, "set1h1_true_model", output_directory)
+# save_specific_table(table_set2h1_false_model, "set2h1_false_model", output_directory)
+
+
+
+# Load necessary libraries if not already loaded
+library(dplyr)
+library(kableExtra)
+library(stringr)
+
+# Your existing setup
+summary_rules <- read_csv2("/Users/mdam21/Desktop/thesis/summary_condition_rules.csv")
+rules <- read_csv2("/Users/mdam21/Desktop/thesis/conditions_meta_grouped.csv")
+source("/Users/mdam21/Desktop/thesis/sample/sample_scripts/00F_MEDIAN_PERCENTILE.R")
+
+conditions_table <- c("condition_p210", "condition_p215", "condition_p1515", "condition_p2175")
+
+# Clean table_function without debug messages
+table_function <- function(format_rules, output_dir = ".", par_conditions, rules_df) {
+  
+  n_tables <- nrow(format_rules)
+  n_conditions <- length(par_conditions)
+  saved_tables <- list() # To keep track of created tables
+  
+  # Ensure output directory exists
+  if (!dir.exists(output_dir)) {
+    dir.create(output_dir, recursive = TRUE)
+  }
+  
+  # Loop through each table in format_rules
+  for (table_idx in 1:n_tables) {
+    # Get table configuration for this iteration
+    table_id <- format_rules$table_id[table_idx]
+    
+    # Loop through each condition column
+    for (cond_idx in 1:n_conditions) {
+      par_con <- par_conditions[cond_idx]
+      
+      # Get the source table
+      table_of_interest <- paste0("summ_", table_id, "_model")
+      
+      # Make sure the table exists in the environment
+      if (!exists(table_of_interest)) {
+        next
+      }
+      
+      table_name <- get(table_of_interest)
+      
+      # Get the condition IDs to keep from the rules dataframe
+      # First check if the column exists in rules_df
+      if (!(par_con %in% colnames(rules_df))) {
+        next
+      }
+      
+      # Get the condition IDs for this condition
+      condition_ids_to_keep <- rules_df[[par_con]]
+      
+      # Remove NAs and empty strings
+      condition_ids_to_keep <- condition_ids_to_keep[!is.na(condition_ids_to_keep) & condition_ids_to_keep != ""]
+      
+      if (length(condition_ids_to_keep) == 0) {
+        next
+      }
+      
+      # Filter the table for the specified condition IDs
+      filtered_table <- table_name %>% 
+        dplyr::filter(condition_id %in% condition_ids_to_keep)
+      
+      # If no data after filtering, skip to next
+      if (nrow(filtered_table) == 0) {
+        next
+      }
+      
+      # Use the filtered_table directly instead of trying to get a non-existent table
+      table <- filtered_table %>% 
+        mutate(
+          # Store the original support value for conditional logic
+          support_value = .data[[format_rules$support[table_idx]]],
+          # Create the support label
+          supp = case_when(
+            .data[[format_rules$support[table_idx]]] == 0 ~ "no",
+            .data[[format_rules$support[table_idx]]] == 1 ~ "yes",
+            TRUE ~ "unknown"
+          ),
+          b_y12 = format_mean(.data[[format_rules$b_y12_m[table_idx]]], .data[[format_rules$b_y12_sd[table_idx]]]),
+          b_y12_p = format_minmax(.data[[format_rules$b_y12_p5[table_idx]]], .data[[format_rules$b_y12_p95[table_idx]]]),
+          b_y21 = format_mean(.data[[format_rules$b_y21_m[table_idx]]], .data[[format_rules$b_y21_sd[table_idx]]]),
+          b_y21_p = format_minmax(.data[[format_rules$b_y21_p5[table_idx]]], .data[[format_rules$b_y21_p95[table_idx]]]),
+          gor_wgt1 = format_median(.data[[format_rules$gor_wgt1_m[table_idx]]]),
+          gor_wgt1_p = format_minmax(.data[[format_rules$gor_wgt1_p5[table_idx]]], .data[[format_rules$gor_wgt1_p95[table_idx]]]),
+          gor_wgt2 = format_median(.data[[format_rules$gor_wgt2_m[table_idx]]]),
+          gor_wgt2_p = format_minmax(.data[[format_rules$gor_wgt2_p5[table_idx]]], .data[[format_rules$gor_wgt2_p95[table_idx]]]),
+          # Calculate different gor_ratio based on support value
+          gor_ratio = case_when(
+            support_value == 0 ~ format_median(.data[[format_rules$gor_ratio2_m[table_idx]]]),
+            support_value == 1 ~ format_median(.data[[format_rules$gor_ratio_m[table_idx]]]),
+            TRUE ~ format_median(.data[[format_rules$gor_ratio_m[table_idx]]])
+          ),
+          # Calculate different gor_ratio minmax based on support value
+          gor_ratio_p = case_when(
+            support_value == 0 ~ format_minmax(.data[[format_rules$gor_ratio2_p5[table_idx]]], .data[[format_rules$gor_ratio2_p95[table_idx]]]),
+            support_value == 1 ~ format_minmax(.data[[format_rules$gor_ratio_p5[table_idx]]], .data[[format_rules$gor_ratio_p95[table_idx]]]),
+            TRUE ~ format_minmax(.data[[format_rules$gor_ratio_p5[table_idx]]], .data[[format_rules$gor_ratio_p95[table_idx]]])
+          )
+        ) %>% 
+        dplyr::select(condition_ind, supp, n_size, b_y12, b_y12_p, b_y21, b_y21_p, 
+                      gor_wgt1, gor_wgt1_p, gor_wgt2, gor_wgt2_p, gor_ratio, gor_ratio_p)
+      
+      n_rows <- nrow(table)
+      
+      # Check if header columns exist and provide defaults if missing
+      header_supp_n <- if("header_supp" %in% names(format_rules)) format_rules$header_supp[table_idx] else "Support"
+      header_wgt1 <- if("header_wgt1" %in% names(format_rules)) format_rules$header_wgt1[table_idx] else "GORICA W1"
+      header_wgt2 <- if("header_wgt2" %in% names(format_rules)) format_rules$header_wgt2[table_idx] else "GORICA W2"
+      
+      # Create the header vector correctly
+      headers <- c(" " = 3,
+                   "$\\phi_{12}$" = 2, 
+                   "$\\phi_{21}$" = 2)
+      N_header <- "$N_{datasets}$"
+      
+      # Dynamically add the wgt headers
+      wgt1_header <- setNames(2, header_wgt1)
+      wgt2_header <- setNames(2, header_wgt2)
+      
+      # Combine all headers
+      headers <- c(headers, wgt1_header, wgt2_header, "ratio $ww'$" = 2)
+      
+      kbl_table <- table %>% 
+        arrange(as.numeric(str_extract(condition_ind, "\\d+"))) %>%
+        kbl(col.names = c("Condition", paste(header_supp_n), N_header,
+                          "Mean (SD)", "(min, max)",  # For theta_12
+                          "Mean (SD)", "(min, max)",  # For theta_21
+                          "Median", "(min, max)",  # For GORICA W1
+                          "Median", "(min, max)",  # For GORICA W2
+                          "Median", "(min, max)"), # For GORICA ratio
+            escape = FALSE, format = "latex") %>% 
+        kable_styling(full_width = TRUE) %>% 
+        add_header_above(headers) %>% 
+        row_spec(0:n_rows, extra_css = "border-top: none !important; border-bottom: none !important;")
+      
+      kbl_table <- kbl_table %>%
+        row_spec(0, extra_css = "border-bottom: 1px solid #ddd !important;")
+      
+      # Create unique output name for this table-condition combination
+      output_name <- paste0("table_", table_id, "_", gsub("condition_", "", par_con), "_model")
+      
+      
+      # Also store in global environment
+      assign(output_name, kbl_table, envir = .GlobalEnv)
+      saved_tables <- c(saved_tables, output_name)
+    }
+  }
+  
+  return(saved_tables)
+}
+
+# Example usage:
+table_function(summary_rules, "output_tables", conditions_table, rules)

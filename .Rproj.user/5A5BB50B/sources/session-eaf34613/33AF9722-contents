@@ -1,0 +1,27 @@
+
+# Define the base path
+base_path <- "./data_archive/simulations/conditions_data/"
+
+
+# Loop through and create each condition folder
+for (i in c(1:48, 60:68)) {
+  folder_name <- paste0("condition_", i)
+  data_folder_path <- file.path(paste0(base_path, "data"), folder_name)
+  output_folder_path <- file.path(paste0(base_path, "output"), folder_name)
+  
+  if (!dir.exists(data_folder_path)) {
+    dir.create(data_folder_path)
+    print(paste("Created folder:", data_folder_path))
+    } else {
+    print(paste("Folder already exists:", data_folder_path))
+    }
+
+if (!dir.exists(output_folder_path)) {
+  dir.create(output_folder_path)
+  print(paste("Created folder:", output_folder_path))
+  } else {
+  print(paste("Folder already exists:", output_folder_path))
+  }
+
+}
+
