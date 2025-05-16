@@ -35,7 +35,7 @@ jags_file <- "./data_archive/simulations/files/bivar_var1_nocovariate.jags"
 meta_conditions2 <- tibble(
   condition = c(1:48, 61:68),
   u.seed = 1000 + c(1:48, 61:68),
-  nsim = rep(276, 56),
+  nsim = rep(500, 56),
   load_data_path = normalizePath(paste0(load_directory, "/condition_", sprintf("%01d", condition)), winslash = "\\"),
   save_gorica_path = normalizePath(paste0(save_directory, "/condition_", sprintf("%01d", condition)), winslash = "\\"),
   gorica_save_name = paste0("gorica_condition_", sprintf("%01d", condition)),
