@@ -58,6 +58,10 @@ Navigate to the `simulations` folder and open `execute_process.R`. This fully an
 
 After simulations complete, analyze results and generate figures/tables using scripts in the `Post_processing` folder.
 
+We recommend users first execute the between level script, as the within level takes significantly longer to process. Moreover, the between level reults are available on Github, but the within level results are not.
+
+
+
 ---
 
 Following these steps ensures accurate replication of thesis results and provides flexibility to extend or adapt the study as needed.
