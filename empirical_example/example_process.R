@@ -5,8 +5,7 @@ library(restriktor)
 library(tidyverse)
 
 
-temp_data <- read.table("/Users/mdam21/Desktop/new_process/data/condition_9999/condition_9998-1.dat", header = T)
-parnew <- read.table("/Users/mdam21/Desktop/new_process/data/condition_9999/condition_9998-1_parameters.dat", header = T)
+temp_data <- read.table("./empirical_example/data/condition_9998-1.dat", header = T)
 
 
 u_seed <- 9998
@@ -37,7 +36,7 @@ jags_data <- list(
 )
 
 model <- jags.model(
-  file = "/Users/mdam21/Desktop/thesis/bivar_var1_covariate_5may.jags",
+  file = "./empirical_example/bivar_var1_covariate.jags",
   data = jags_data,
   inits = NULL,
   n.chains = 2,

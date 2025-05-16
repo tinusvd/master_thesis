@@ -1,0 +1,44 @@
+﻿plot;subtitle;y_axis;x_axis;subtitle_person;person_y;appendix_person_subtitle;appendix_between_subtitle
+set1h1_true_p210;(a) $\ \ \ \ \phi_{12} = 0.20, \ \phi_{21} = 0.10$;THR GORICA H1 (\%);;(a);THR GORICA H1 (\%);placeholder;placeholder
+set2h1_true_p210;(g);THR GORICA H1 (\%);;(c);THR GORICA H1 (\%);placeholder;placeholder
+set3ha1_false_p210;(a) $\ \ \  \ \ \ \ \ \ \ \ \Hypothesis \ Set \ 3$;THR GORICA Ha1* (\%);;(c);THR GORICA Ha1* (\%);placeholder;placeholder
+set3ha1c_true_p210;(a) $\ \ \ \ \ \ \ \ \ \ \ \ \phi_{12} = 0.20, \ \phi_{21} = 0.10$;THR GORICA Ha1c (\%);;(e);THR GORICA Ha1c (\%);placeholder;placeholder
+set4ha2c_true_p210;(a) $\ \ \ \ \ \ \ \ \ \ \ \ \phi_{12} = 0.20, \ \phi_{21} = 0.10$;THR GORICA Ha2c (\%);;(g);THR GORICA Ha2c (\%);placeholder;placeholder
+set4ha2_false_p210;;THR GORICA Ha2* (\%);;(e);THR GORICA Ha2* (\%);placeholder;placeholder
+set1h1_true_p210_adj;(d);Adj. THR GORICA H1 (\%);;(b);Adj. THR GORICA H1 (\%);placeholder;placeholder
+set2h1_true_p210_adj;(j);Adj. THR GORICA H1 (\%);;(d);Adj. THR GORICA H1 (\%);placeholder;placeholder
+set3ha1_false_p210_adj;;Adj. THR GORICA Ha1* (\%);;(d);Adj. THR GORICA Ha1* (\%);placeholder;placeholder
+set3ha1c_true_p210_adj;(c);Adj. THR GORICA Ha1c (\%);;(f);Adj. THR GORICA Ha1c (\%);placeholder;placeholder
+set4ha2c_true_p210_adj;;Adj. THR GORICA Ha2c (\%);;(h);Adj. THR GORICA Ha2c (\%);placeholder;(a) $\ \ \  \ \ \ \ \phi_{12} = 0.20, \ \phi_{21} = 0.10$
+set4ha2_false_p210_adj;(d);Adj. THR GORICA Ha2* (\%);;(f);Adj. THR GORICA Ha2* (\%);placeholder;placeholder
+set1h1_true_p215;(b) $\ \ \ \ \phi_{12} = 0.20, \ \phi_{21} = 0.15$;THR GORICA H1 (\%);;(a);THR GORICA H1 (\%);(a);placeholder
+set2h1_true_p215;(h);THR GORICA H1 (\%);;(c);THR GORICA H1 (\%);(e);placeholder
+set3ha1_true_p215;(b) $\ \ \ \ \ \ \ \ \ \ \ \ \phi_{12} = 0.20, \ \phi_{21} = 0.15$;THR GORICA Ha1$^b$ (\%);;(e);THR GORICA Ha1$^b$ (\%);(i);placeholder
+set4ha2c_true_p215;(b) $\ \ \ \ \ \ \ \ \ \ \ \ \phi_{12} = 0.20, \ \phi_{21} = 0.15$;THR GORICA Ha2c (\%);;(g);THR GORICA Ha2c (\%);(m);placeholder
+set4ha2_false_p215;;THR GORICA Ha2* (\%);;placeholder;THR GORICA Ha2* (\%);placeholder;placeholder
+set1h1_true_p215_adj;(e);Adj. THR GORICA H1 (\%);;(b);placeholder;(b);placeholder
+set2h1_true_p215_adj;(k);Adj. THR GORICA H1 (\%);;(d);placeholder;(f);placeholder
+set3ha1_true_p215_adj;(d);Adj. THR GORICA Ha1$^b$ (\%);;placeholder;placeholder;(j);placeholder
+set3bound_true_p215;(d);Support Boundary (\%);;(f);Support Boundary (\%);placeholder;placeholder
+set4ha2c_true_p215_adj;;Adj. THR GORICA Ha2c (\%);;(h);THR GORICA Ha2c (\%);(n);(b) $\ \ \  \ \ \ \ \phi_{12} = 0.20, \ \phi_{21} = 0.15$
+set4ha2_false_p215_adj;;THR GORICA Ha2* (\%);;placeholder;THR GORICA Ha2* (\%);placeholder;placeholder
+set1h1_false_p1515;(a) $\ \ \  \ \ \ \ \ \ \ \ \Hypothesis \ Set \ 1$;THR GORICA H1$^b$ (\%);;(a);THR GORICA H1$^b$ (\%);placeholder;placeholder
+set3ha1_true_p1515;;THR GORICA Ha1 (\%);;(e);THR GORICA Ha1 (\%);placeholder;(b) $\ \ \  \ \ \ \ \ \phi_{12} = 0.15, \ \phi_{21} = 0.15$
+set4ha2_true_p1515;(d) $\ \ \ \ \ \ \ \ \ \ \ \ \phi_{12} = 0.15, \ \phi_{21} = 0.15$;THR GORICA Ha2 (\%);;(g);THR GORICA Ha2 (\%);placeholder;(d) $\ \ \  \ \ \ \ \phi_{12} = 0.15, \ \phi_{21} = 0.15$
+set2h0_true_p1515;(b) $\ \ \  \ \ \ \ \ \ \ \ \Hypothesis \ Set \ 2$;THR GORICA H0 (\%);;(c);THR GORICA H0 (\%);placeholder;placeholder
+set2bound_true_p1515;(d);Support Boundary (\%);;(d);Support Boundary (\%);(d);placeholder
+set1h1_false_p1515_adj;(c);Adj. THR GORICA H1$^b$ (\%);;(b);Adj. THR GORICA H1$^b$ (\%);placeholder;placeholder
+set1bound_true_p1515;;Support Boundary (\%);;(b);Support Boundary (\%);placeholder;placeholder
+set3ha1_true_p1515_adj;(d);Adj. THR GORICA Ha1 (\%);;(f);Adj. THR GORICA Ha1 (\%);placeholder;placeholder
+set4ha2_true_p1515_adj;;Adj. THR GORICA Ha2 (\%);;(h);Adj. THR GORICA Ha2 (\%);placeholder;(d) $\ \ \  \ \ \ \ \phi_{12} = 0.15, \ \phi_{21} = 0.15$
+set2h0_true_p1515_adj;(d);Adj. THR GORICA H0 (\%);;(d);Adj. THR GORICA H0 (\%);placeholder;placeholder
+set1h1_true_p2175;(c) $\ \ \ \phi_{12} = 0.20, \ \phi_{21} = 0.175$;THR GORICA H1 (\%);;(a);THR GORICA H1 (\%);(c);placeholder
+set2h1_true_p2175;(i);THR GORICA H1 (\%);;(c);THR GORICA H1 (\%);(g);placeholder
+set3ha1_true_p2175;;THR GORICA Ha1 (\%);;(e);THR GORICA Ha1 (\%);(k);(a) $\ \ \  \ \ \ \ \phi_{12} = 0.20, \ \phi_{21} = 0.175$
+set4ha2c_true_p2175;(c) $\ \ \ \ \ \ \ \ \ \ \ \ \phi_{12} = 0.20, \ \phi_{21} = 0.175$;THR GORICA Ha2c (\%);;(g);THR GORICA Ha2c (\%);(o);placeholder
+set4ha2_false_p2175;;placeholder;;placeholder;placeholder;placeholder;placeholder
+set1h1_true_p2175_adj;(f);Adj. THR GORICA H1 (\%);;(b);Adj. THR GORICA H1 (\%);(d);placeholder
+set2h1_true_p2175_adj;(l);Adj. THR GORICA H1 (\%);;(d);Adj. THR GORICA H1 (\%);(h);placeholder
+set3ha1_true_p2175_adj;;Adj. THR GORICA Ha1 (\%);;(f);Adj. THR GORICA Ha1 (\%);(l);(c)
+set4ha2c_true_p2175_adj;;Adj. THR GORICA Ha2c (\%);;(h);Adj. THR GORICA Ha2c (\%);(p);(c) $\ \ \  \ \ \ \ \phi_{12} = 0.20, \ \phi_{21} = 0.175$
+set4ha2_false_p2175_adj;;THR GORICA Ha2* (\%);;placeholder;THR GORICA Ha2* (\%);placeholder;placeholder

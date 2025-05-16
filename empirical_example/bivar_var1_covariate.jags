@@ -1,0 +1,69 @@
+model {
+  for (j in 1:np) { 
+    # Initialize first observation
+    cy[startseries[j],1] <- y[startseries[j],1] - b[j,1]
+    cy[startseries[j],2] <- y[startseries[j],2] - b[j,2]
+    
+    # Process subsequent observations
+    for (t in (startseries[j] + 1):endseries[j]) {
+      # JAGS will automatically handle missing y values
+      y[t,1:2] ~ dmnorm(evy[t,1:2], Ipre[1:2,1:2])
+      
+      # Define expected values
+      evy[t,1] <- b[j,1] + b[j,5] * cy[t-1,2] + b[j,3] * cy[t-1,1]
+      evy[t,2] <- b[j,2] + b[j,4] * cy[t-1,2] + b[j,6] * cy[t-1,1]
+      
+      # Define centered values
+      cy[t,1] <- y[t,1] - b[j,1]
+      cy[t,2] <- y[t,2] - b[j,2]
+    }
+  }
+  
+  Ipre[1:2,1:2] ~ dwish(R[1:2,1:2], 3)
+  Sigma[1:2,1:2] <- inverse(Ipre[1:2,1:2])
+  R[1,1] <- 1; R[1,2] <- 0
+  R[2,1] <- 0;    R[2,2] <- 1
+
+  # --- (1) OPTIONAL: population priors for bmu / bvar ---
+  for (k in 1:4) {
+    bmu[k]  ~ dnorm(0, 0.001)
+    bvar[k] ~ dunif(0, 10)
+  }
+
+  # --- (2) level‐2 regressions for all six b[j,*] ---
+  for (j in 1:np) {
+    # intercepts
+    evb1[j] <- intb1 + c1_x * x[j]
+    evb2[j] <- intb2 + c2_x * x[j]
+    b[j,1]  ~ dnorm(evb1[j], prb1)
+    b[j,2]  ~ dnorm(evb2[j], prb2)
+
+    # self‐lags
+    evb3[j] <- intb3 + c3_x * x[j]
+    evb4[j] <- intb4 + c4_x * x[j]
+    b[j,3]  ~ dnorm(evb3[j], prb3)
+    b[j,4]  ~ dnorm(evb4[j], prb4)
+
+    # cross‐lags
+    evc[j,1] <- intb5 + c5_x * x[j]
+    evc[j,2] <- intb6 + c6_x * x[j]
+    b[j,5]  ~ dnorm(evc[j,1], prb5)
+    b[j,6]  ~ dnorm(evc[j,2], prb6)
+  }
+
+  # --- (3) priors for all intb* and c*_x ---
+  intb1 ~ dnorm(0,0.0001);  c1_x ~ dnorm(0,0.0001)
+  intb2 ~ dnorm(0,0.0001);  c2_x ~ dnorm(0,0.0001)
+  intb3 ~ dnorm(0,0.0001);  c3_x ~ dnorm(0,0.0001)
+  intb4 ~ dnorm(0,0.0001);  c4_x ~ dnorm(0,0.0001)
+  intb5 ~ dnorm(0,0.0001);  c5_x ~ dnorm(0,0.0001)
+  intb6 ~ dnorm(0,0.0001);  c6_x ~ dnorm(0,0.0001)
+
+  # --- (4) priors for the six precisions prb1…prb6 ---
+  prb1 <- 1/bvar1;  bvar1 ~ dunif(0,10)
+  prb2 <- 1/bvar2;  bvar2 ~ dunif(0,10)
+  prb3 <- 1/bvar3;  bvar3 ~ dunif(0,10)
+  prb4 <- 1/bvar4;  bvar4 ~ dunif(0,10)
+  prb5 <- 1/bvar5;  bvar5 ~ dunif(0,10)
+  prb6 <- 1/bvar6;  bvar6 ~ dunif(0,10)
+}

@@ -1,0 +1,38 @@
+
+model {
+  for (j in 1:np) { 
+    for (t in (startseries[j] + 1):endseries[j]) {
+      y[t,1:2] ~ dmnorm(evy[t,1:2], Ipre[1:2,1:2])
+      evy[t,1] <- b[j,1] + b[j,3] * cy[t-1,2] + b[j,5] * cy[t-1,1]
+      evy[t,2] <- b[j,2] + b[j,6] * cy[t-1,2] + b[j,4] * cy[t-1,1]
+      cy[t,1] <- y[t,1] - b[j,1]
+      cy[t,2] <- y[t,2] - b[j,2]
+    }
+  }
+
+  for (j in 1:np) {
+    cy[startseries[j],1] <- y[startseries[j],1] - b[j,1]
+    cy[startseries[j],2] <- y[startseries[j],2] - b[j,2]
+  }
+
+    # Precision matrix prior: using dwish in JAGS
+  Ipre[1:2,1:2] ~ dwish(R[1:2,1:2], 3)
+  
+  # Define the covariance matrix as the inverse of the precision matrix
+  Sigma[1:2,1:2] <- inverse(Ipre[1:2,1:2])
+  
+  # Define the scale matrix R (here, the identity matrix)
+  R[1,1] <- 1; R[1,2] <- 0; 
+  R[2,1] <- 0; R[2,2] <- 1; 
+
+  for (j in 1:np) {
+    for (k in 1:6) {
+      b[j,k] ~ dnorm(bmu[k], 1 / bvar[k])
+    }
+  }
+
+  for (k in 1:6) {
+    bmu[k] ~ dnorm(0, .0001)
+    bvar[k] ~ dunif(0,10)
+  }
+}
