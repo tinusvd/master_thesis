@@ -43,14 +43,14 @@ Navigate to the `simulations` folder and open `execute_process.R`. This fully an
 
 - Check available cores using the `DetectCores` function (line `18` in `execute_process.R`).
 - Keep at least 2 cores free to ensure system stability.
-- Update line `21` in `execute_process.R` with the desired number of cores.  
-  *(Example: If you have 8 cores, enter `6`.)*
+- Update line `21` in `execute_process.R` with the value that you have to subtract from your total numbers of cores to keep 2 cores free.  
+  *(Example: If you have 8 cores, enter `2`.)*
 
 ### Step 4: Run Simulations
 
 - Run the final line in `execute_process.R` to start parallel processing.
 - ⚠️ **Warning**: Computational time can be extremely long:
-  - With a typical 8-core desktop or laptop, full simulations take around **2 months**.
+  - With a typical 8-core desktop or laptop, full simulations take around **2-3 months**.
   - To limit simulations and reduce runtime, adjust condition indices in  
     `./data_archive/simulations/scripts/02_make_directories.R` (lines `36-37`).
 
