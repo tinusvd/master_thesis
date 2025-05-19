@@ -70,7 +70,7 @@ Navigate to the `post_processing` folder and open the script `execute_between_le
 
    * Uncomment **line 10** to load the `final_conditions` object. This object includes the between-subject simulation results used in the thesis. Perform this step if you did not generate simulation data yourself and wish to directly run the provided post-processing scripts.
 
-⚠️ **Note:** The following steps (2-7) are only required if you are **not** using the pre-provided data from this repository.
+⚠️ **Note:** The following steps (2-6) are only required if you are **not** using the pre-provided data from this repository.
 
 2. **Combine simulation results**:
 
@@ -106,7 +106,8 @@ Navigate to the `post_processing` folder and open the script `execute_between_le
    * Execute **line 65** to source the table-generation functions and create tables.
    * Tables are available as `.ltx` objects in your R environment and saved as `.html` files in:
      `./data_archive/figures_tables/tables/between_level/`.
-   * HTML tables are pre-included in this repository; accessing tables in R provides LaTeX code.
+   * HTML tables are pre-included in this repository.
+   * Accessing tables in R provides LaTeX code for the tables.
 
 9. **Create figures**:
 
