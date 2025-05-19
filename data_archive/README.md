@@ -1,8 +1,71 @@
-# Reproducing Simulation Results for Evaluating Causal Dominance Hypotheses in Multilevel VAR(1) Models
+# Repository for Master's Thesis: Evaluating Causal Dominance Hypotheses in Multilevel VAR(1) Models
 
-This README provides guidance for reproducing the simulation results presented in the thesis titled: **"How to Evaluate Causal Dominance Hypotheses in Multilevel Vector Autoregressive Models."** All necessary scripts, tables, and figures used in the thesis are included, along with instructions for researchers conducting their own simulation studies.
+This README provides guidance for reproducing the results presented in the Master's thesis titled: **"How to Evaluate Causal Dominance Hypotheses in Multilevel Vector Autoregressive Models,"** by M.L.G. van Dam, supervised by Dr. Rebecca M. Kuiper. This thesis is part of the Methodology and Statistics for the Behavioural, Biomedical, and Social Sciences program at Utrecht University (UU).
+
+The repository contains all necessary scripts, tables, figures, and instructions required for reproducing the results and conducting your own simulation studies.
+
+## Software and Dependencies
+
+For detailed software versions and package dependencies, refer to `./data_archive/requirements.csv`.
+
+## Hardware
+
+The data were generated on a MacBook Air with Apple M3 CPU. Software (and versions) are presented in the `requirements.csv` file.
+The simulations were conducted on a server with Ampere Altra Q80-30 CPus (80 cores) and 128 GB or memory (RRAM). 
+
+---
+
+## Ethical Approval and Data Management
+
+This study has received ethical approval from the Ethical Review Board of the Faculty of Social and Behavioural Sciences at Utrecht University (UU), under case number **24-1988**. Approval was granted based on submitted research protocols, addressing ethical considerations, data management practices, and privacy issues in compliance with the General Data Protection Regulation (GDPR). Approval is valid through **12 May 2025**.
+
+### Privacy and Consent
+- No empirical data was collected for this simulation study. Hence, informed consent procedures were not applicable.
+- The empirical example provided in this repository consists of generated data.
+
+---
+
+## Permission and Access
+
+* **Archive Access**: Freely available on [GitHub](https://github.com/tinsuvd/master_thesis).
+* **Responsible Researcher**: M.L.G. van Dam.
+* **Archive Availability**: Freely accessible online indefinitely.
+* **Contact Information**: [m.l.g.vandam@uu.nl](mailto:m.l.g.vandam@uu.nl)
+
+---
+
 
 ## Folder Structure Overview
+
+* **Data\_archive**:
+
+  * Contains R scripts to reproduce the simulation study results.
+
+* **Empirical\_example**:
+
+  * Contains R scripts and data for conducting analyses with multilevel VAR(1) models.
+  * Includes evaluation of hypotheses using the Generalized Order-Restricted Information Criterion Approximation (GORICA) at between- and within-subject levels.
+
+* **Supplementary\_materials**:
+
+  * Includes additional methodological explanations, tables, and figures supporting the thesis.
+
+## Study Design
+
+This thesis evaluates the performance of the **Generalized Order-Restricted Information Criterion Approximation (GORICA)**—an extension of the AIC for testing informative hypotheses—in multilevel bivariate first-order vector autoregressive (VAR(1)) models.
+
+The simulation systematically varies:
+
+* Number of subjects (**N**)
+* Number of measurement occasions (**T**)
+* Population parameter values
+* Hypothesis sets:
+
+  * Two sets of causal dominance hypotheses
+  * "About-equality" hypotheses specifying ranges for parameter differences
+
+In total, 56 unique conditions were assessed, each replicated with 500 generated datasets. Hypotheses were tested independently at the between- and within-subject levels, with results stored and processed separately for each level. Each level has dedicated R scripts.
+
 
 - **Simulations**: Contains scripts for:
   - Installing required packages
