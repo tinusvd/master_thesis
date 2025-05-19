@@ -30,6 +30,7 @@ This study has received ethical approval from the Ethical Review Board of the Fa
 * **Archive Availability**: Freely accessible online indefinitely.
 * **Contact Information**: [m.l.g.vandam@uu.nl](mailto:m.l.g.vandam@uu.nl)
 
+---
 
 ## Folder Structure Overview
 
