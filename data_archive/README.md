@@ -34,7 +34,6 @@ This study has received ethical approval from the Ethical Review Board of the Fa
 
 --
 
-
 ## Folder Structure Overview
 
 * **Data\_archive**:
