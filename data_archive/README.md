@@ -13,7 +13,6 @@ For detailed software versions and package dependencies, refer to `./data_archiv
 The data were generated on a MacBook Air with Apple M3 CPU. Software (and versions) are presented in the `requirements.csv` file.
 The simulations were conducted on a server with Ampere Altra Q80-30 CPus (80 cores) and 128 GB or memory (RRAM). 
 
---
 
 ## Ethical Approval and Data Management
 
@@ -23,7 +22,6 @@ This study has received ethical approval from the Ethical Review Board of the Fa
 - No empirical data was collected for this simulation study. Hence, informed consent procedures were not applicable.
 - The empirical example provided in this repository consists of generated data.
 
---
 
 ## Permission and Access
 
